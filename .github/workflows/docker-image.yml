@@ -23,4 +23,4 @@ jobs:
     - name: Log in to DO Container Registry 
       run: doctl registry login --expiry-seconds 600
     - name: Push image to DO Container Registry 
-      run: docker push ${{ variables.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
+      run: docker push ${{ env.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
