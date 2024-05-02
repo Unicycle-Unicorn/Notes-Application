@@ -19,7 +19,7 @@ jobs:
       run: ls
     - name: Build the Docker image
       working-directory: ${{ github.workspace }}/Notes Application
-      run: docker build . --tag my-image-name:latest
+      run: docker build . --tag ${{ vars.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
     - name: Install doctl 
       uses: digitalocean/action-doctl@v2
       with:
@@ -27,4 +27,4 @@ jobs:
     - name: Log in to DO Container Registry 
       run: doctl registry login --expiry-seconds 600
     - name: Push image to DO Container Registry 
-      run: docker push my-image-name:latest
+      run: docker push ${{ vars.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
