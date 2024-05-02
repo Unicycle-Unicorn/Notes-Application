@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file ${{ github.workspace }}/Dockerfile --tag my-image-name:latest
+      run: docker build ${{ github.workspace }} --tag my-image-name:latest
     - name: Install doctl 
       uses: digitalocean/action-doctl@v2
       with:
