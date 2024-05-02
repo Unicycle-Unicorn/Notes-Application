@@ -1,24 +1,30 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Use the .NET 8.0 SDK image as base
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build-env
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
+# Set the working directory in the container
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
 
-# Use the Alpine version of the .NET SDK
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["Notes Application/Notes Application.csproj", "Notes Application/"]
-RUN dotnet restore "Notes Application/Notes Application.csproj"
-COPY . .
-WORKDIR "/src/Notes Application"
-RUN dotnet build "Notes Application.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# Copy the .NET project file and restore dependencies
+COPY *.csproj ./
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish "Notes Application.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Copy the remaining source code
+COPY . ./
 
-FROM base AS final
+# Build the application
+RUN dotnet publish -c Release -o out
+
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+
+# Set the working directory for the runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copy the build output from the previous stage
+COPY --from=build-env /app/out .
+
+# Expose port 80 for the application
+EXPOSE 80
+
+# Command to run the application
 ENTRYPOINT ["dotnet", "Notes Application.dll"]
