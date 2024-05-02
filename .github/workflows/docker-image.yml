@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        path: /app
+        path: ./app
     - name: Build the Docker image
       working-directory: /app
       run: docker build . --file Dockerfile --tag my-image-name:latest
