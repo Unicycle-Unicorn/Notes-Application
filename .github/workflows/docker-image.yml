@@ -14,6 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: plz help me
+      working-directory: ${{ github.workspace }}
+      run: ls
     - name: Build the Docker image
       working-directory: ${{ github.workspace }}
       run: docker build ${{ github.workspace }} -f ${{ github.workspace }}/Dockerfile --tag my-image-name:latest
