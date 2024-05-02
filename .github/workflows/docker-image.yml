@@ -7,19 +7,16 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
+    env:
+        IMAGE_NAME: 'temporary-name'
+        PROJECT_DIRECTORY: 'Notes Application'
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: plz help me
-      working-directory: ${{ github.workspace }}
-      run: ls
     - name: Build the Docker image
-      working-directory: ${{ github.workspace }}/Notes Application
-      run: docker build . --tag ${{ vars.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
+      working-directory: ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}
+      run: docker build . --tag ${{ vars.DIGITALOCEAN_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
     - name: Install doctl 
       uses: digitalocean/action-doctl@v2
       with:
@@ -27,4 +24,4 @@ jobs:
     - name: Log in to DO Container Registry 
       run: doctl registry login --expiry-seconds 600
     - name: Push image to DO Container Registry 
-      run: docker push ${{ vars.DIGITALOCEAN_REGISTRY }}/my-image-name:latest
+      run: docker push ${{ vars.DIGITALOCEAN_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
