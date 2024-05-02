@@ -18,8 +18,8 @@ jobs:
       working-directory: ${{ github.workspace }}
       run: ls
     - name: Build the Docker image
-      working-directory: ${{ github.workspace }}
-      run: docker build ${{ github.workspace }} -f ${{ github.workspace }}/Dockerfile --tag my-image-name:latest
+      working-directory: ${{ github.workspace }}/Notes Application
+      run: docker build . --tag my-image-name:latest
     - name: Install doctl 
       uses: digitalocean/action-doctl@v2
       with:
