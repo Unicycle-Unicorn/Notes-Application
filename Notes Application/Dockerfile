@@ -23,8 +23,5 @@ WORKDIR /app
 # Copy the build output from the previous stage
 COPY --from=build-env /app/out .
 
-# Expose port 8080 for the application
-EXPOSE 8080
-
 # Command to run the application
 ENTRYPOINT ["dotnet", "Notes Application.dll"]
