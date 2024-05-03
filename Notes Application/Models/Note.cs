@@ -2,5 +2,10 @@
 
 public class Note
 {
-    public string Content { get; set; } = "";
+    public Note(string initial)
+    {
+        this.Content = initial;
+    }
+
+    public string Content { get; set; }
 }

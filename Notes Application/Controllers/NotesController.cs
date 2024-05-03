@@ -8,7 +8,7 @@ namespace Notes_Application.Controllers;
 public class NotesController : ControllerBase
 {
 
-    private static readonly Note Note = new();
+    private static readonly Note Note = new("Something");
 
     public NotesController()
     {
