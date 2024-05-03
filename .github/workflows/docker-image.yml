@@ -8,20 +8,22 @@ on:
 
 jobs:
   build:
+    permissions:
+        contents: read
+        packages: write
     env:
-        IMAGE_NAME: 'temporary-name'
         PROJECT_DIRECTORY: 'Notes Application'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       working-directory: ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}
-      run: docker build . --tag ${{ vars.DIGITALOCEAN_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-    - name: Install doctl 
-      uses: digitalocean/action-doctl@v2
+      run: docker build . --tag ghcr.io/unicycle-unicorn/image-name:latest
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
       with:
-        token: ${{ secrets.DIGITALOCEAN_TOKEN }}
-    - name: Log in to DO Container Registry 
-      run: doctl registry login --expiry-seconds 600
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push image to DO Container Registry 
-      run: docker push ${{ vars.DIGITALOCEAN_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+      run: docker push ghcr.io/unicycle-unicorn/image-name:latest
