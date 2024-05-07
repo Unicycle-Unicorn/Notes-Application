@@ -8,9 +8,6 @@ on:
 
 jobs:
   build_and_push_image:
-    permissions:
-        contents: read
-        packages: write
     uses: Unicycle-Unicorn/CICD/.github/workflows/docker-build-push.yml@main
     with:
       subdirectory: 'Notes Application'
