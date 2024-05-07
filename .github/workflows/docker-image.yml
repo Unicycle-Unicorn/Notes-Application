@@ -8,27 +8,9 @@ on:
 
 jobs:
   build_and_push_image:
-    name: Build and Push Docker Image
-    env:
-        PROJECT_DIRECTORY: 'Notes Application'
     permissions:
         contents: read
         packages: write
-    runs-on: ubuntu-latest
-    steps:
-    - id: lower-repo
-      name: Lowercase Repository Name
-      run: |
-        echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
-    - uses: actions/checkout@v4
-    - name: Build Docker Image
-      working-directory: ${{ github.workspace }}/${{ env.PROJECT_DIRECTORY }}
-      run: docker build . --tag ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest
-    - name: Login to GitHub Packages
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push Docker Image
-      run: docker push ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest
+    uses: Unicycle-Unicorn/CICD/.github/workflows/docker-build-push.yml@main
+    with:
+      subdirectory: 'Notes Application'
