@@ -23,7 +23,8 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        // We don't need https because our services are secured via nginx https through a proxy pass over http to this service
+        // app.UseHttpsRedirection();
 
         app.UseAuthorization();
 
