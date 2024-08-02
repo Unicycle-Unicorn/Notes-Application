@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.HttpOverrides;
+
 namespace Notes_Application;
 
 public class Program
@@ -27,7 +29,6 @@ public class Program
         // app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
 
         app.MapControllers();
 
