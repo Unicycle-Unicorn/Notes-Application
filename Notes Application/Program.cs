@@ -37,8 +37,8 @@ public class Program
             });
         });
 
-        //ICamInterface camService = new RemoteCamInterface("notes", "https://api.unicycleunicorn.net/cam");
-        ICamInterface camService = new RemoteCamInterface("notes", "http://localhost:5048");
+        ICamInterface camService = new RemoteCamInterface("notes", "https://api.unicycleunicorn.net/cam");
+        //ICamInterface camService = new RemoteCamInterface("notes", "http://localhost:5048");
         _ = builder.Services.AddSingleton(typeof(ICamInterface), camService);
 
         var app = builder.Build();
