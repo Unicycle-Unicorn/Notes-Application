@@ -6,6 +6,9 @@ WORKDIR /app
 
 # Copy the .NET project file and restore dependencies
 COPY *.csproj ./
+
+RUN dotnet nuget add source https://nuget.pkg.github.com/Unicycle-Unicorn/index.json -n UniyclceUnicorn
+
 RUN dotnet restore
 
 # Copy the remaining source code
