@@ -13,7 +13,7 @@ ARG GITHUB_USER=not_provided
 
 # Conditional GitHub NuGet source configuration
 RUN if [ "$ADD_NUGET_SOURCE" = "true" ]; then \
-        dotnet nuget add source https://nuget.pkg.github.com/Unicycle-Unicorn/index.json -u $GITHUB_USER -p $GITHUB_TOKEN --store-password-in-clear-text; \
+        dotnet nuget add source https://nuget.pkg.github.com/Unicycle-Unicorn/index.json -n UniyclceUnicorn --valid-authentication-types basic -u $GITHUB_USER -p $GITHUB_TOKEN --store-password-in-clear-text; \
     fi
 
 RUN dotnet restore
