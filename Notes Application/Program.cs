@@ -36,7 +36,7 @@ public class Program
             });
         });
 
-        ICamInterface camService = new RemoteCamInterface("notes", "cam");
+        ICamInterface camService = new RemoteCamInterface("notes", "http://cam:8080");
         //ICamInterface camService = new RemoteCamInterface("notes", "http://localhost:5048");
         _ = builder.Services.AddSingleton(typeof(ICamInterface), camService);
 
