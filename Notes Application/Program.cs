@@ -32,7 +32,7 @@ public class Program
         {
             options.AddPolicy(CorsAllowAll, builder =>
             {
-                builder.WithOrigins("https://ui.unicycleunicorn.net").AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders(HeaderUtils.XExceptionCode);
+                _ = builder.WithOrigins("http://localhost:8080").AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithExposedHeaders(HeaderUtils.XExceptionCode);
             });
         });
 
