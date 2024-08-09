@@ -7,15 +7,13 @@ WORKDIR /app
 # Copy the .NET project file and restore dependencies
 COPY *.csproj ./
 
+# Copy nuget if present
+COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
+
 RUN dotnet restore
 
 # Copy the remaining source code
 COPY . ./
-
-# Copy nuget if present
-COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
-
-RUN ls /root/.nuget/NuGet/
 
 # Build the application
 RUN dotnet publish -c Release -o out
