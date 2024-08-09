@@ -28,7 +28,7 @@ RUN if [ "$ADD_NUGET_SOURCE" = "true" ]; then \
     echo '      <add key="ClearTextPassword" value="'$GITHUB_TOKEN'" />' >> /root/.nuget/NuGet/NuGet.Config && \
     echo '    </github>' >> /root/.nuget/NuGet/NuGet.Config && \
     echo '  </packageSourceCredentials>' >> /root/.nuget/NuGet/NuGet.Config && \
-    echo '</configuration>' >> /root/.nuget/NuGet/NuGet.Config \
+    echo '</configuration>' >> /root/.nuget/NuGet/NuGet.Config; \
 fi
 
 RUN dotnet restore
