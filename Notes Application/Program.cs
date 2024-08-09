@@ -5,7 +5,7 @@ using AuthProvider.Exceptions;
 using AuthProvider.RuntimePrecheck;
 using AuthProvider.Swagger;
 using AuthProvider.Utils;
-using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Notes_Application;
 
@@ -36,7 +36,7 @@ public class Program
             });
         });
 
-        ICamInterface camService = new RemoteCamInterface("notes", "https://api.unicycleunicorn.net/cam");
+        ICamInterface camService = new RemoteCamInterface("notes", "cam");
         //ICamInterface camService = new RemoteCamInterface("notes", "http://localhost:5048");
         _ = builder.Services.AddSingleton(typeof(ICamInterface), camService);
 
@@ -57,7 +57,7 @@ public class Program
         app.UseAuthorization();
 
         app.UseCors(CorsAllowAll);
-
+        
         _ = app.UseExceptionHandler();
         app.MapControllers();
 
