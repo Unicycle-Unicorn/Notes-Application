@@ -13,7 +13,7 @@ RUN dotnet restore
 COPY . ./
 
 # Copy nuget if present
-COPY NuGet.Config* /root/.nuget/NuGet/
+COPY /NuGet.Config /root/.nuget/NuGet/
 
 # Build the application
 RUN dotnet publish -c Release -o out
