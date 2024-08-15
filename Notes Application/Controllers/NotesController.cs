@@ -4,6 +4,7 @@ using Microsoft.Net.Http.Headers;
 using Notes_Application.Models;
 using AuthProvider;
 using AuthProvider.Authentication.Authorizers;
+using AuthProvider.AuthModelBinder;
 
 namespace Notes_Application.Controllers;
 
@@ -11,8 +12,7 @@ namespace Notes_Application.Controllers;
 [Route("[controller]/[action]")]
 public class NotesController : ControllerBase
 {
-
-    private static readonly Note Note = new() { Content = "something" };
+    private static readonly Dictionary<Guid, Note> UserNotes = [];
 
     public NotesController()
     {
@@ -21,15 +21,33 @@ public class NotesController : ControllerBase
 
     [HttpGet]
     [Auth<SessionAuth>]
-    public IActionResult GetNotes()
+    public IActionResult GetNotes([FromAuth<AuthUserId>] Guid userId)
     {
-        return Ok(Note);
+        if (UserNotes.TryGetValue(userId, out Note? note))
+        {
+            return Ok(note);
+        } else
+        {
+            note = new Note() { Content = "New Note" };
+            UserNotes[userId] = note;
+            return Ok(note);
+        }
     }
 
     [HttpPost]
-    public IActionResult PostNotes([FromBody] Note note)
+    [Auth<SessionAuth>]
+    public IActionResult PostNotes([FromAuth<AuthUserId>] Guid userId, [FromBody] Note note)
     {
-        Note.Content = note.Content;
+        if (UserNotes.TryGetValue(userId, out Note? userNote))
+        {
+            userNote.Content = note.Content;
+        }
+        else
+        {
+            var newNote = new Note() { Content = note.Content };
+            UserNotes[userId] = newNote;
+        }
+
         return Ok();
     }
 }
